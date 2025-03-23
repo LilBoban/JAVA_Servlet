@@ -4,7 +4,21 @@
          http://xmlns.jcp.org/xml/ns/javaee/web-app_4_0.xsd"
          version="4.0">
 
-    <welcome-file-list>
-        <welcome-file>index.jsp</welcome-file>
-    </welcome-file-list>
+    <servlet>
+        <servlet-name>FileExplorerServlet</servlet-name>
+        <servlet-class>com.example.servlet.FileExplorerServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>FileExplorerServlet</servlet-name>
+        <url-pattern>/file-explorer</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>file-download</servlet-name>
+        <servlet-class>com.example.servlet.FileDownloadServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>file-download</servlet-name>
+        <url-pattern>/download</url-pattern>
+    </servlet-mapping>
 </web-app>

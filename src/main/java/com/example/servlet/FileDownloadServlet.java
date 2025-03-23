@@ -11,7 +11,7 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 
-@WebServlet("/download")
+
 public class FileDownloadServlet extends HttpServlet {
 
     @Override
