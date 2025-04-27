@@ -1,35 +1,52 @@
 package com.example.servlet;
 
 import jakarta.servlet.ServletException;
-import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-
+import jakarta.servlet.http.HttpSession;
 import java.io.File;
 import java.io.IOException;
-import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Date;
-import java.util.stream.Collectors;
 
 public class FileExplorerServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        String currentPath = req.getParameter("path");
-        if (currentPath == null || currentPath.isEmpty()) {
-            currentPath = System.getProperty("user.home"); // Начальная директория
+        HttpSession session = req.getSession(false);
+        if (session == null || session.getAttribute("user") == null) {
+            resp.sendRedirect("login");
+            return;
         }
 
-        File directory = new File(currentPath);
+        String userLogin = (String) session.getAttribute("user");
+        Path userHome = Paths.get("/Users/Shared/filemanager/", userLogin)
+                .normalize()
+                .toAbsolutePath();
+
+        String pathParam = req.getParameter("path");
+        Path currentPath;
+
+        if (pathParam == null || pathParam.isEmpty()) {
+            currentPath = userHome;
+        } else {
+            currentPath = Paths.get(pathParam).normalize().toAbsolutePath();
+
+            // Проверка, что путь находится внутри userHome
+            if (!currentPath.startsWith(userHome)) {
+                resp.sendError(HttpServletResponse.SC_FORBIDDEN, "Access denied");
+                return;
+            }
+        }
+
+        File directory = currentPath.toFile();
         if (!directory.exists() || !directory.isDirectory()) {
             resp.sendError(HttpServletResponse.SC_NOT_FOUND, "Directory not found");
             return;
         }
 
-        // Получаем список файлов и папок
         File[] files = directory.listFiles();
         req.setAttribute("files", files);
         req.setAttribute("currentPath", currentPath);
