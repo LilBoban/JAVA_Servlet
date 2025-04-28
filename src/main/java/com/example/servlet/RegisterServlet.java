@@ -2,8 +2,8 @@ package com.example.servlet;
 
 import com.example.model.User;
 import com.example.service.AuthService;
-import jakarta.servlet.*;
-import jakarta.servlet.http.*;
+import javax.servlet.*;
+import javax.servlet.http.*;
 import java.io.File;
 import java.io.IOException;
 

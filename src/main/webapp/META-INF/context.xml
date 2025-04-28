@@ -1,0 +1,7 @@
+<Context>
+    <Manager className="org.apache.catalina.session.PersistentManager">
+        <Store className="org.apache.catalina.session.FileStore"
+               directory="/Users/dreeameer/Downloads/apache-tomcat-9.0.104/sessions"
+               checkInterval="60"/>
+    </Manager>
+</Context>
