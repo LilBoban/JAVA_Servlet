@@ -1,12 +1,21 @@
 package com.example.model;
 
+import javax.persistence.*;
 import java.io.Serializable;
 
-public class User  implements Serializable{
+@Entity
+@Table(name = "users")
+public class User implements Serializable {
     private static final long serialVersionUID = 1L;
 
+    @Id
+    @Column(name = "login", nullable = false, unique = true)
     private String login;
+
+    @Column(name = "password", nullable = false)
     private String password;
+
+    @Column(name = "email")
     private String email;
 
     // Геттеры и сеттеры
